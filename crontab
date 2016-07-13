@@ -1,0 +1,2 @@
+0 0 0 * * root /letsencrypt/letsencrypt-auto renew --standalone --standalone-supported-challenges http-01 >> /vpn/renew.log 2>&1
+# An empty line is required at the end of this file for a valid cron file.
