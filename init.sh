@@ -29,7 +29,7 @@ then
         echo "domain name dir found. no need get cert"
   else
         echo "domain name no found, let's request cert"
-        /letsencrypt/letsencrypt-auto certonly --standalone --agree-tos --standalone-supported-challenges http-01 --email $em -d $dn > /vpn/init.log 2>&1
+        /letsencrypt/letsencrypt-auto certonly --standalone --agree-tos --preferred-challenges http-01 --email $em -d $dn > /vpn/init.log 2>&1
   fi
   
 else 
