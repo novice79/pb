@@ -25,7 +25,18 @@ if [ ! -f /etc/apt/sources.list.d/docker.list ]; then
 sudo apt-get update && apt-get upgrade -y
 sudo apt-get install apt-transport-https ca-certificates
 sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-sudo echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker.list
+if lsb_release -c | grep -q 'xenial'  ; then
+    echo "in xenial"
+    sudo echo "deb https://apt.dockerproject.org/repo ubuntu-xenial main" > /etc/apt/sources.list.d/docker.list
+elif lsb_release -c | grep -q 'trusty'  ; then
+    echo "in trusty"
+    sudo echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker.list
+else
+    echo "do not support this os version. exit ..."
+    exit -1
+fi
+
+
 sudo apt-get update
 sudo apt-get install apparmor linux-image-extra-$(uname -r) -y
 sudo apt-get install docker-engine -y
