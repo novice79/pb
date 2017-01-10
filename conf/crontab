@@ -1,2 +1,2 @@
-30 2 * * 1 root /letsencrypt/letsencrypt-auto renew --standalone --preferred-challenges http-01 >> /vpn/renew.log 2>&1 && supervisorctl restart stunnel nghttpx 
+30 2 * * 1 root letsencrypt renew >> /vpn/renew.log 2>&1 && supervisorctl restart stunnel nghttpx 
 # An empty line is required at the end of this file for a valid cron file.
