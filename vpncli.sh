@@ -45,7 +45,7 @@ if [  ! -f /vpnclient/vpncmd ]; then
     sudo apt-get update && apt-get upgrade -y
     sudo apt-get -y install wget curl build-essential
     if [  ! -f ./softether*.tar.gz ]; then
-        wget https://raw.githubusercontent.com/novice79/sevpn/master/softether-vpnclient-v4.20-9608-rtm-2016.04.17-linux-x64-64bit.tar.gz
+        wget https://raw.githubusercontent.com/novice79/pb/master/softether-vpnclient-v4.20-9608-rtm-2016.04.17-linux-x64-64bit.tar.gz
     fi
     tar zxvf softether*.tar.gz
     #sudo tar zxvf vc.tar.gz -C /
