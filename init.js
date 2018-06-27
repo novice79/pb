@@ -7,11 +7,13 @@ let ret = sync('vpnserver', ['start']);
 for (let j = 0; j < process.argv.length; j++) {  
   console.log(j + ' -> ' + (process.argv[j]));
 }
-const domain = process.argv[1];
-const user = process.argv[2] || 'freego';
-const pass = process.argv[3] || "freego2018";
-const key = process.argv[4] || "freego2018";
-const email = process.argv[5] || `${user}@${domain}`;
+// first two are node and script name
+const paras = process.argv.slice(2)
+const domain = paras[0];
+const user = paras[1] || 'freego';
+const pass = paras[2] || "freego2018";
+const key = paras[3] || "freego2018";
+const email = paras[4] || `${user}@${domain}`;
 if (!fs.existsSync(`/etc/letsencrypt/live/${domain}`)) {
   // letsencrypt certonly --standalone --agree-tos --preferred-challenges http-01 --email $em -d $dn
   ret = sync('letsencrypt', ['certonly', '--standalone', '--agree-tos', '--email', email, '-d', domain]);
