@@ -15,16 +15,18 @@ const email = process.argv[5] || `${user}@${domain}`;
 if (!fs.existsSync(`/etc/letsencrypt/live/${domain}`)) {
   // letsencrypt certonly --standalone --agree-tos --preferred-challenges http-01 --email $em -d $dn
   ret = sync('letsencrypt', ['certonly', '--standalone', '--agree-tos', '--email', email, '-d', domain]);
-  if( ret.stdout.indexOf('Congratulations!') < 0 ){
+  const std_out = ret.stdout.toString();
+  const std_err = ret.stderr.toString();
+  if( std_out.indexOf('Congratulations!') < 0 ){
     console.log('request certificate failed')   
-    console.log(ret.stdout)
-    console.log(ret.stderr)
+    console.log(std_out)
+    console.log(std_err)
     return;
   } 
-  console.log(ret.stdout)
+  console.log(std_out)
 } else {
   ret = sync('letsencrypt', ['renew']);
-  console.log(ret.stdout)
+  console.log( ret.stdout.toString() )
 }
 const cert = `/etc/letsencrypt/live/${domain}/fullchain.pem`;
 const privkey = `/etc/letsencrypt/live/${domain}/privkey.pem`;
