@@ -2,15 +2,15 @@
 set -e
 # install vpn software
 apt-get update && apt-get upgrade -y
-apt-get install build-essential -y
+# for build softether
+apt-get install build-essential libreadline-dev libncurses5-dev libssl-dev zlib1g-dev -y
 apt-get install -y software-properties-common supervisor \
-    cron curl git iptables nginx letsencrypt
+    cron wget curl git iptables nginx letsencrypt
 cd /vpn
-tar xzvf softether*.tar.gz
-cd vpnserver && make i_read_and_agree_the_license_agreement
-chmod 600 *
-chmod 700 vpnserver
-chmod 700 vpncmd
+wget http://www.softether-download.com/files/softether/v4.25-9656-rtm-2018.01.15-tree/Source_Code/softether-src-v4.25-9656-rtm.tar.gz
+tar xzvf softether*.tar.gz  -C . --strip-components=1
+./configure && make -j4
+make install
 # install proxy software
 apt-get install -y squid stunnel4 nghttp2 
 mkdir -p /var/log/lep 
@@ -20,6 +20,6 @@ apt-get install -y nodejs
 
 # clean it up
 rm -rf /var/cache/apt/* /var/lib/apt/lists/* \
-    /vpn/softether*.tar.gz \
+    /vpn \
     && apt-get purge -y -q --auto-remove build-essential
 exit 0

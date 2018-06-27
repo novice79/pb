@@ -4,8 +4,8 @@ MAINTAINER David <david@cninone.com>
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN mkdir -p /vpn
-COPY sources.list /etc/apt/
-COPY install.sh softether-vpnserver-*.tar.gz /vpn/
+# COPY sources.list /etc/apt/
+COPY install.sh /vpn/
 RUN bash /vpn/install.sh 
 
 ADD conf/crontab /etc/cron.d/gc-cron

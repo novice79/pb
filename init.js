@@ -1,5 +1,6 @@
 #!/usr/bin/node
-
+const sync = require('child_process').spawnSync;
+let ret = sync('vpnserver', ['start']);
 for (let j = 0; j < process.argv.length; j++) {  
   console.log(j + ' -> ' + (process.argv[j]));
 }
