@@ -5,7 +5,7 @@ apt-get update && apt-get upgrade -y
 # for build softether
 apt-get install build-essential libreadline-dev libncurses5-dev libssl-dev zlib1g-dev -y
 apt-get install -y software-properties-common supervisor \
-    cron wget curl git iptables nginx letsencrypt
+    cron wget curl net-tools git iptables nginx letsencrypt
 cd /vpn
 wget http://www.softether-download.com/files/softether/v4.25-9656-rtm-2018.01.15-tree/Source_Code/softether-src-v4.25-9656-rtm.tar.gz
 tar xzvf softether*.tar.gz  -C . --strip-components=1
