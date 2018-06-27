@@ -45,7 +45,7 @@ if [  ! -f /vpnclient/vpncmd ]; then
     sudo apt-get update && apt-get upgrade -y
     sudo apt-get -y install wget curl build-essential
     if [  ! -f ./softether*.tar.gz ]; then
-        wget https://raw.githubusercontent.com/novice79/sevpn/master/softether-vpnclient-v4.20-9608-rtm-2016.04.17-linux-x64-64bit.tar.gz
+        wget https://raw.githubusercontent.com/novice79/sevpn/master/softether-vpnclient-v4.25-9656-rtm-2018.01.15-linux-x64-64bit.tar
     fi
     tar zxvf softether*.tar.gz
     #sudo tar zxvf vc.tar.gz -C /
@@ -72,6 +72,7 @@ case "$1" in
         sleep 1
         /vpnclient/vpncmd localhost /CLIENT /CMD NicCreate fg
         /vpnclient/vpncmd localhost /CLIENT /CMD AccountCreate cnn /SERVER:$2:443 /HUB:DEFAULT /USERNAME:"$un" /NICNAME:fg
+        /vpnclient/vpncmd localhost /CLIENT /CMD AccountSet cnn /SERVER:cninone.com:992 /HUB:DEFAULT
         # AccountDetailSet [name] [/MAXTCP:max_connection] [/INTERVAL:additional_interval] [/TTL:disconnect_span] [/HALF:yes|no] [/BRIDGE:yes|no] [/MONITOR:yes|no] [/NOTRACK:yes|no] [/NOQOS:yes|no]
         # /vpnclient/vpncmd localhost /CLIENT /CMD AccountDetailSet cnn /MAXTCP:4 /BRIDGE:yes /INTERVAL:1 /TTL:60 /HALF:no /MONITOR:no /NOTRACK:no /NOQOS:no
         # /vpnclient/vpncmd localhost /CLIENT /CMD AccountDelete cnn
