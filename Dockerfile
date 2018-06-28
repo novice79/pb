@@ -5,7 +5,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN mkdir -p /vpn && mkdir -p /data/www/static \
     && mkdir -p /var/www/ssl-proof \
-    && mkdir -p /var/www/wx-proof \
+    && mkdir -p /var/www/wx-proof
+    
 # COPY sources.list /etc/apt/
 COPY install.sh /vpn/
 RUN bash /vpn/install.sh 

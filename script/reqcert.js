@@ -12,7 +12,7 @@ const email = paras[1] || `${require("os").userInfo().username}@${domain}`;
 let data = {
     domain
 }
-const templ = fs.readFileSync('tmpl.conf', "utf8")
+const templ = fs.readFileSync('/script/tmpl.conf', "utf8")
 let cfg = templ.replace(/\${([^}]*)}/g, (r, k) => {
     // console.log(r, k)
     return data[k] || r;
