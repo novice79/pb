@@ -69,8 +69,6 @@ function start_service() {
   const privkey = `/etc/letsencrypt/live/${domain}/privkey.pem`;
   let ret = spawnSync('vpnserver', ['start'])  
   console.log('softether vpn started !!!')
-  // Sleep for 250 microseconds
-  execSync("usleep 250");
   execSync("sleep 1") //wait for 1 second
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/CMD', 'ServerPasswordSet', 'freego']);
   // ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/CMD', 'ListenerDelete', '443']);
