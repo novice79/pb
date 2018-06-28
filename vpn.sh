@@ -8,11 +8,11 @@
 if [ ! `which docker` ] ; then
     sudo apt-get update
     if lsb_release -c | grep -q 'trusty'  ; then
-        sudo apt-get install \
+        sudo apt-get install -y \
             linux-image-extra-$(uname -r) \
             linux-image-extra-virtual
     fi
-    sudo apt-get install \
+    sudo apt-get install -y \
         apt-transport-https \
         ca-certificates \
         curl \
@@ -23,7 +23,7 @@ if [ ! `which docker` ] ; then
         $(lsb_release -cs) \
         stable"    
     sudo apt-get update
-    sudo apt-get install docker-ce    
+    sudo apt-get install -y docker-ce    
     # sudo service docker start
     sudo usermod -aG docker `whoami`
     docker pull novice/pb:latest
