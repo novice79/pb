@@ -6,7 +6,7 @@
 # Xenial 16.04 (LTS)
 # Trusty 14.04 (LTS)
 if [ ! `which docker` ] ; then
-    sudo apt-get update
+    sudo apt-get update -y
     if lsb_release -c | grep -q 'trusty'  ; then
         sudo apt-get install -y \
             linux-image-extra-$(uname -r) \
@@ -22,10 +22,11 @@ if [ ! `which docker` ] ; then
         "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
         $(lsb_release -cs) \
         stable"    
-    sudo apt-get update
+    sudo apt-get update -y
     sudo apt-get install -y docker-ce    
     # sudo service docker start
     sudo usermod -aG docker `whoami`
+    sudo su $USER
     docker pull novice/pb:latest
 fi
 
