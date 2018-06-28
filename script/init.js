@@ -15,16 +15,15 @@ supervisor.stdout.on('data', (data) => {
 supervisor.on('close', (code) => {
   console.log(`supervisord exited with code ${code}`);
 });
-// fs.watch('/etc/nginx/conf.d', (eventType, filename) => {
-//   console.log(`event type is: ${eventType}`);
-//   if (filename) {
-//     console.log(`filename provided: ${filename}`);
-//   } else {
-//     console.log('filename not provided');
-//   }
-//   const nginx_cfg = spawn('service', ['nginx', 'reload']);
-// });
-// need place into supervisord?
+fs.watch('/etc/nginx/conf.d', (eventType, filename) => {
+  console.log(`event type is: ${eventType}`);
+  if (filename) {
+    console.log(`filename provided: ${filename}`);
+  } else {
+    console.log('filename not provided');
+  }
+  const nginx_cfg = spawn('service', ['nginx', 'reload']);
+});
 
 for (let j = 0; j < process.argv.length; j++) {
   console.log(j + ' -> ' + (process.argv[j]));
