@@ -5,29 +5,29 @@
 # Artful 17.10
 # Xenial 16.04 (LTS)
 # Trusty 14.04 (LTS)
-sudo -i
+
 if [ ! `which docker` ] ; then
-    apt-get update -y
+    sudo apt-get update -y
     if lsb_release -c | grep -q 'trusty'  ; then
-        apt-get install -y \
+        sudo apt-get install -y \
             linux-image-extra-$(uname -r) \
             linux-image-extra-virtual
     fi
-    apt-get install -y \
+    sudo apt-get install -y \
         apt-transport-https \
         ca-certificates \
         curl \
         software-properties-common
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-    add-apt-repository \
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository \
         "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
         $(lsb_release -cs) \
         stable"    
-    apt-get update -y
-    apt-get install -y docker-ce    
+    sudo apt-get update -y
+    sudo apt-get install -y docker-ce    
     # service docker start
     # susermod -aG docker `whoami`
-    docker pull novice/pb:latest
+    sudo docker pull novice/pb:latest
 fi
 
 if [ ! -z $1 ] && [ $1 = 'stop' ] ; then
@@ -49,11 +49,11 @@ if [ ! -d "/etc/letsencrypt/live" ] && [ $# = 0 ]; then
     echo "$USAGE"
     exit 0
 fi   
-mkdir -p /etc/nginx/conf.d/
+sudo mkdir -p /etc/nginx/conf.d/
 
-if ! docker ps | grep -q 'novice/pb'  ; then
+if ! sudo docker ps | grep -q 'novice/pb'  ; then
     echo "starting vpn..."
-    docker run -d --name pb \
+    sudo docker run -d --name pb \
     --network="host" \
     -v "/etc/letsencrypt:/etc/letsencrypt" \
     -v "/etc/nginx/conf.d:/etc/nginx/conf.d" \

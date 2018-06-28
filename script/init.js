@@ -70,7 +70,8 @@ function start_service() {
   let ret = spawnSync('vpnserver', ['start'])  
   console.log('softether vpn started !!!')
   execSync("sleep 1") //wait for 1 second
-  ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/CMD', 'ServerPasswordSet', 'freego']);
+  // password is already freego in config file
+  // ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/CMD', 'ServerPasswordSet', 'freego']);
   // ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/CMD', 'ListenerDelete', '443']);
   console.log('11111111111111111111111111111111')
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/adminhub:DEFAULT', '/CMD', 'SecureNatEnable']);
