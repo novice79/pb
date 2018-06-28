@@ -25,7 +25,7 @@ supervisor.on('close', (code) => {
 //   const nginx_cfg = spawn('service', ['nginx', 'reload']);
 // });
 // need place into supervisord?
-let ret = spawnSync('vpnserver', ['start']);
+
 for (let j = 0; j < process.argv.length; j++) {
   console.log(j + ' -> ' + (process.argv[j]));
 }
@@ -41,10 +41,10 @@ const key = paras[3] || "freego2018";
 const email = paras[4] || `${user}@${domain}`;
 if (!fs.existsSync(`/etc/letsencrypt/live/${domain}`)) {
   // letsencrypt certonly --standalone --agree-tos --preferred-challenges http-01 --email $em -d $dn
-  // ret = spawnSync('letsencrypt', ['certonly', '--standalone', '--agree-tos', '--email', email, '-d', domain]);
+  // let ret = spawnSync('letsencrypt', ['certonly', '--standalone', '--agree-tos', '--email', email, '-d', domain]);
   (function req_cert(){
     if(nginx_available){
-      ret = spawnSync('/script/reqcert.js', [domain, email]);
+      const ret = spawnSync('/script/reqcert.js', [domain, email]);
       const std_out = ret.stdout.toString();
       const std_err = ret.stderr.toString();
       if (std_out.indexOf('Congratulations!') < 0) {
@@ -61,14 +61,14 @@ if (!fs.existsSync(`/etc/letsencrypt/live/${domain}`)) {
     }
   })()
 } else {
-  ret = spawnSync('letsencrypt', ['renew']);
+  const ret = spawnSync('letsencrypt', ['renew']);
   console.log(ret.stdout.toString())
   start_service()
 }
 function start_service() {
   const cert = `/etc/letsencrypt/live/${domain}/fullchain.pem`;
   const privkey = `/etc/letsencrypt/live/${domain}/privkey.pem`;
-
+  let ret = spawnSync('vpnserver', ['start'])
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/CMD', 'ServerPasswordSet', 'freego']);
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/CMD', 'ListenerDelete', '443']);
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/adminhub:DEFAULT', '/CMD', 'SecureNatEnable']);
