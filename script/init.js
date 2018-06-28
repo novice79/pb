@@ -69,6 +69,7 @@ function start_service() {
   const cert = `/etc/letsencrypt/live/${domain}/fullchain.pem`;
   const privkey = `/etc/letsencrypt/live/${domain}/privkey.pem`;
   let ret = spawnSync('vpnserver', ['start'])
+  console.log('softether vpn started !!!')
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/CMD', 'ServerPasswordSet', 'freego']);
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/CMD', 'ListenerDelete', '443']);
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/adminhub:DEFAULT', '/CMD', 'SecureNatEnable']);
