@@ -1,6 +1,6 @@
 #!/usr/bin/node
 const fs = require('fs');
-const { spawn, spawnSync } = require('child_process');
+const { spawn, spawnSync, execSync } = require('child_process');
 
 const supervisor = spawn('/usr/bin/supervisord', ['--nodaemon']);
 let nginx_available = false;
@@ -68,21 +68,28 @@ if (!fs.existsSync(`/etc/letsencrypt/live/${domain}`)) {
 function start_service() {
   const cert = `/etc/letsencrypt/live/${domain}/fullchain.pem`;
   const privkey = `/etc/letsencrypt/live/${domain}/privkey.pem`;
-  let ret = spawnSync('vpnserver', ['start'])
+  let ret = spawnSync('vpnserver', ['start'])  
   console.log('softether vpn started !!!')
+  execSync("sleep 1") //wait for 1 second
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/CMD', 'ServerPasswordSet', 'freego']);
-  ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/CMD', 'ListenerDelete', '443']);
+  // ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/CMD', 'ListenerDelete', '443']);
+  console.log('11111111111111111111111111111111')
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/adminhub:DEFAULT', '/CMD', 'SecureNatEnable']);
+  console.log('22222222222222222222222222222222')
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/adminhub:DEFAULT',
     '/CMD', 'UserCreate', user, '/GROUP:none', '/REALNAME:none', '/NOTE:none']);
+  console.log('33333333333333333333333333333333')  
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/adminhub:DEFAULT',
     '/CMD', 'UserPasswordSet', user, `/PASSWORD:${pass}`, '/REALNAME:none', '/NOTE:none']);
+  console.log('44444444444444444444444444444444')  
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/adminhub:DEFAULT',
     '/CMD', 'IPsecEnable', '/L2TP:yes', `/L2TPRAW:yes`, '/ETHERIP:yes', `/PSK:${key}`, '/DEFAULTHUB:DEFAULT']);
+  console.log('55555555555555555555555555555555')
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego',
     '/CMD', 'ServerCertSet', `/LOADCERT:${cert}`, `/LOADKEY:${privkey}`]);
-
+  console.log('66666666666666666666666666666666')
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/CMD', 'SstpEnable', 'yes']);
+  console.log('softether vpn cofiguration completed !!!')
   const nghttpx_cfg =
 `frontend=0.0.0.0,1982
 backend=127.0.0.1,3128
