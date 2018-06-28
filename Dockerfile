@@ -7,7 +7,6 @@ RUN mkdir -p /vpn && mkdir -p /data/www/static \
     && mkdir -p /var/www/ssl-proof \
     && mkdir -p /var/www/wx-proof
 
-# COPY sources.list /etc/apt/
 COPY install.sh /vpn/
 # ADD script /script
 COPY script /script

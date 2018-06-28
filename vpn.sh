@@ -26,7 +26,7 @@ if [ ! `which docker` ] ; then
     sudo apt-get update -y
     sudo apt-get install -y docker-ce    
     # service docker start
-    # susermod -aG docker `whoami`
+    sudo usermod -aG docker `whoami` # for another login to effect
     sudo docker pull novice/pb:latest
 fi
 

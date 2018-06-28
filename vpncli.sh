@@ -15,16 +15,16 @@ if [[ $1 = 'inspect' ]] ; then
     then
         echo "VPN 客户端未启动"
     else
-        /vpnclient/vpncmd localhost /CLIENT /CMD AccountStatusGet cnn
+        vpncmd localhost /CLIENT /CMD AccountStatusGet cnn
     fi
     exit 0
 fi
 if [[ $1 = 'stop' ]] ; then
-    if [ -f /vpnclient/res_route.sh ]
+    if [ -f /usr/vpnclient/res_route.sh ]
     then
         echo "Stopping VPN Client"
-        sudo /vpnclient/vpnclient stop
-        /vpnclient/res_route.sh
+        sudo vpnclient stop
+        /usr/vpnclient/res_route.sh
         if grep -q "192.168.30.1" /etc/resolv.conf
         then
             sudo sed -i '/8.8.8.8/,/192.168.30.1/d' /etc/resolv.conf
@@ -41,21 +41,19 @@ fi
 un=${3-"freego"}
 pw=${4-"freego2016"}
 
-if [  ! -f /vpnclient/vpncmd ]; then
+if [ ! `which vpnclient` ]; then
     sudo apt-get update && apt-get upgrade -y
     sudo apt-get -y install wget curl build-essential
-    if [  ! -f ./softether*.tar.gz ]; then
-        wget https://raw.githubusercontent.com/novice79/sevpn/master/softether-vpnclient-v4.25-9656-rtm-2018.01.15-linux-x64-64bit.tar
-    fi
-    tar zxvf softether*.tar.gz
-    #sudo tar zxvf vc.tar.gz -C /
-    cd vpnclient && make i_read_and_agree_the_license_agreement && cd ..
-    sudo mv vpnclient /
+    cd /tmp
+    wget http://www.softether-download.com/files/softether/v4.25-9656-rtm-2018.01.15-tree/Source_Code/softether-src-v4.25-9656-rtm.tar.gz
+    tar xzvf softether*.tar.gz  -C . --strip-components=1
+    ./configure && make -j4
+    sudo make install
 fi
 case "$1" in
     start)
-        if [  -f /vpnclient/vpn_client.config ]; then
-            rm -rf /vpnclient/vpn_client.config
+        if [  -f /usr/vpnclient/vpn_client.config ]; then
+            rm -rf /usr/vpnclient/vpn_client.config
         fi
         ################################
         echo "retrieving host address, please wait..."
@@ -68,21 +66,21 @@ case "$1" in
         nic_nm=`ifconfig | grep -B1 $nic_nm | awk 'FNR == 1 { print $1 }'`
         ################################
         echo "Starting VPN Client"
-        sudo /vpnclient/vpnclient start        
+        sudo vpnclient start        
         sleep 1
-        /vpnclient/vpncmd localhost /CLIENT /CMD NicCreate fg
-        /vpnclient/vpncmd localhost /CLIENT /CMD AccountCreate cnn /SERVER:$2:443 /HUB:DEFAULT /USERNAME:"$un" /NICNAME:fg
-        /vpnclient/vpncmd localhost /CLIENT /CMD AccountSet cnn /SERVER:cninone.com:992 /HUB:DEFAULT
+        vpncmd localhost /CLIENT /CMD NicCreate fg
+        vpncmd localhost /CLIENT /CMD AccountCreate cnn /SERVER:$2:443 /HUB:DEFAULT /USERNAME:"$un" /NICNAME:fg
+        vpncmd localhost /CLIENT /CMD AccountSet cnn /SERVER:cninone.com:992 /HUB:DEFAULT
         # AccountDetailSet [name] [/MAXTCP:max_connection] [/INTERVAL:additional_interval] [/TTL:disconnect_span] [/HALF:yes|no] [/BRIDGE:yes|no] [/MONITOR:yes|no] [/NOTRACK:yes|no] [/NOQOS:yes|no]
-        # /vpnclient/vpncmd localhost /CLIENT /CMD AccountDetailSet cnn /MAXTCP:4 /BRIDGE:yes /INTERVAL:1 /TTL:60 /HALF:no /MONITOR:no /NOTRACK:no /NOQOS:no
-        # /vpnclient/vpncmd localhost /CLIENT /CMD AccountDelete cnn
-        /vpnclient/vpncmd localhost /CLIENT /CMD AccountPasswordSet cnn /PASSWORD:"$pw" /TYPE:standard
-        /vpnclient/vpncmd localhost /CLIENT /CMD AccountStartupSet cnn
-        /vpnclient/vpncmd localhost /CLIENT /CMD AccountConnect cnn
-        # /vpnclient/vpncmd localhost /CLIENT /CMD AccountDisconnect cnn
+        # vpncmd localhost /CLIENT /CMD AccountDetailSet cnn /MAXTCP:4 /BRIDGE:yes /INTERVAL:1 /TTL:60 /HALF:no /MONITOR:no /NOTRACK:no /NOQOS:no
+        # vpncmd localhost /CLIENT /CMD AccountDelete cnn
+        vpncmd localhost /CLIENT /CMD AccountPasswordSet cnn /PASSWORD:"$pw" /TYPE:standard
+        vpncmd localhost /CLIENT /CMD AccountStartupSet cnn
+        vpncmd localhost /CLIENT /CMD AccountConnect cnn
+        # vpncmd localhost /CLIENT /CMD AccountDisconnect cnn
         sleep 1
-        /vpnclient/vpncmd localhost /CLIENT /CMD AccountStatusGet cnn
-        # /vpnclient/vpncmd localhost /CLIENT /CMD NicList
+        vpncmd localhost /CLIENT /CMD AccountStatusGet cnn
+        # vpncmd localhost /CLIENT /CMD NicList
         
         # todo: wait actually connected?
         sleep 1
@@ -93,8 +91,8 @@ RESET_ROUTE=$(cat <<-AEND
     sudo route add default gw $mygw dev $nic_nm
 AEND
 )
-        sudo echo "$RESET_ROUTE" > /vpnclient/res_route.sh
-        sudo chmod +x /vpnclient/res_route.sh
+        sudo echo "$RESET_ROUTE" > /usr/vpnclient/res_route.sh
+        sudo chmod +x /usr/vpnclient/res_route.sh
         sudo dhclient vpn_fg
         sudo route add -host $svrip gw $mygw
         sleep 1
