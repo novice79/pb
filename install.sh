@@ -22,4 +22,5 @@ apt-get install -y nodejs
 rm -rf /var/cache/apt/* /var/lib/apt/lists/* \
     /vpn \
     && apt-get purge -y -q --auto-remove build-essential
+echo "Hello World!" > /data/www/index.html    
 exit 0

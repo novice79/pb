@@ -3,7 +3,9 @@ FROM ubuntu:18.04
 MAINTAINER David <david@cninone.com>
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN mkdir -p /vpn
+RUN mkdir -p /vpn && mkdir -p /data/www/static \
+    && mkdir -p /var/www/ssl-proof \
+    && mkdir -p /var/www/wx-proof \
 # COPY sources.list /etc/apt/
 COPY install.sh /vpn/
 RUN bash /vpn/install.sh 
@@ -19,6 +21,7 @@ COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 EXPOSE 80 443 500/udp 4500/udp 1701/udp 992/tcp 1194 1194/udp 5555/tcp 1979 1982
 
-COPY init.js /
-RUN chmod +x /init.js
-ENTRYPOINT ["/init.js"]
+# ADD script /script
+COPY script /script
+RUN chmod -R +x /script
+ENTRYPOINT ["/script/init.js"]
