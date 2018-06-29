@@ -34,13 +34,23 @@ if [ ! -z $1 ] && [ $1 = 'stop' ] ; then
     sudo docker rm -f pb
     exit 0
 fi
+if [ $# -ge 2 ] && [ $1 = 'req' ] ; then
+    domain=$2
+    email=${3-"$(whoami)@$domain"}
+    docker exec -t pb "/script/reqcert.js" domain email
+    exit 0
+fi
 USAGE=$(cat <<-END
     用法:
     启动VPN服务: $0 DomainName [UserName] [Password] [key] [myEmail]
     开启时若用户名、密码、秘钥不填，则默认为：freego、freego2016、freego2016
     这个用户名、密码……是 客户端 登陆vpn服务器时所用
-    如果第一次获取域名证书成功后，并且打算用默认的用户名、密码、秘钥。则直接运行$0即可，后面不用跟任何参数
-    例如: $0 xxx.com 或 $0 xxx.com myname mypass mykey my@email.com
+    在docker服务运行中，如果想申请其它域名（此域名需绑定该服务器ip）的ssl证书，可执行：
+    例如: $0 req another.domain.com 或 $0 req another.domain.com myname@email.address
+    optional email address is for certificate expiration notification
+    申请成功后的域名证书在/etc/letsencrypt/live目录下
+    该docker自带nginx（证书的申请和更新也是通过nginx），如果想配置https网站，
+    可以自行修改/etc/nginx/conf.d目录下的配置文件，该目录已映射到docker镜像中的同名目录
     停止VPN服务:$0 stop
     
 END
