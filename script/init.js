@@ -76,15 +76,14 @@ function start_service() {
   // ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/CMD', 'ListenerDelete', '443']);
   // console.log('11111111111111111111111111111111')
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/adminhub:DEFAULT', '/CMD', 'SecureNatEnable']);
-  // console.log('22222222222222222222222222222222')
+  
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/adminhub:DEFAULT',
     '/CMD', 'UserCreate', user, '/GROUP:none', '/REALNAME:none', '/NOTE:none']);
-  // console.log('33333333333333333333333333333333')  
-  ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/adminhub:DEFAULT',
-    '/CMD', 'UserPasswordSet', user, `/PASSWORD:${pass}`, '/REALNAME:none', '/NOTE:none']);
+  // vpncmd localhost:992 /SERVER /PASSWORD:freego /adminhub:DEFAULT /CMD UserPasswordSet user_name /PASSWORD:password
+  // vpncmd localhost:992 /SERVER /PASSWORD:freego /CMD IPsecEnable /L2TP:yes /L2TPRAW:yes /ETHERIP:yes /PSK:password /DEFAULTHUB:DEFAULT
+  ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/adminhub:DEFAULT', '/CMD', 'UserPasswordSet', user, `/PASSWORD:${pass}`]);
   // console.log('44444444444444444444444444444444')  
-  ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/adminhub:DEFAULT',
-    '/CMD', 'IPsecEnable', '/L2TP:yes', `/L2TPRAW:yes`, '/ETHERIP:yes', `/PSK:${key}`, '/DEFAULTHUB:DEFAULT']);
+  ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego', '/CMD', 'IPsecEnable', '/L2TP:yes', `/L2TPRAW:yes`, '/ETHERIP:yes', `/PSK:${key}`, '/DEFAULTHUB:DEFAULT']);
   // console.log('55555555555555555555555555555555')
   ret = spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego',
     '/CMD', 'ServerCertSet', `/LOADCERT:${cert}`, `/LOADKEY:${privkey}`]);
