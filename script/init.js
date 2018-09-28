@@ -114,9 +114,10 @@ cert=${cert}
   const span = 30 * 24 * 3600 * 1000; //30 days
   setInterval(()=>{
     const ret = spawnSync('letsencrypt', ['renew']);
-    fs.appendFile('renew_cert.log', ret.stdout.toString(), (err)=> {
+    fs.writeFile('renew_cert.log', ret.stdout.toString(), (err)=> {
       // if (err) throw err;
       // console.log('Saved!');
+      spawnSync('supervisorctl', ['restart', 'nginx', 'stunnel', 'nghttpx']);
     });
   }, span)
 }
