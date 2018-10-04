@@ -117,7 +117,7 @@ cert=${cert}
     fs.writeFile('renew_cert.log', ret.stdout.toString(), (err)=> {
       // if (err) throw err;
       // console.log('Saved!');
-      spawnSync('supervisorctl', ['restart', 'nginx', 'stunnel', 'nghttpx']);
+      // spawnSync('supervisorctl', ['restart', 'nginx', 'stunnel', 'nghttpx']);
     });
   }, span)
 }
