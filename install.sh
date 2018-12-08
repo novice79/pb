@@ -20,7 +20,7 @@ apt-get install -y nodejs
 
 # clean it up
 rm -rf /var/cache/apt/* /var/lib/apt/lists/* \
-    /vpn \
+    /vpn/* \
     && apt-get purge -y -q --auto-remove build-essential
 
 mv /script/vpn_server.config /usr/vpnserver/vpn_server.config
