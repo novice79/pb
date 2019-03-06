@@ -1,6 +1,6 @@
-FROM ubuntu:18.04
+FROM ubuntu:latest
 
-MAINTAINER David <david@cninone.com>
+LABEL maintainer="David <david@cninone.com>"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN mkdir -p /vpn && mkdir -p /data/www/static \
@@ -20,6 +20,10 @@ WORKDIR /root
 
 COPY conf/squid.conf /etc/squid/squid.conf
 COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+#1723/TCP(PPTP) 1701/UDP(L2TP) 
+#500/UDP(IPSec using IKE/IKEv2, e.g. used by L2TP) 
+#4500/UDP(IKE/IKEv2 and NAT-T)
 
 EXPOSE 80 443 500/udp 4500/udp 1701/udp 992/tcp 1194 1194/udp 5555/tcp 1979 1982
 
