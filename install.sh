@@ -3,7 +3,7 @@ set -e
 # install vpn software
 apt-get update && apt-get upgrade -y
 # for build softether
-apt-get install build-essential libreadline-dev libncurses5-dev libssl-dev zlib1g-dev -y
+apt-get install cmake build-essential libreadline-dev libncurses5-dev libssl-dev zlib1g-dev -y
 apt-get install -y software-properties-common supervisor \
     cron wget curl net-tools git iptables nginx letsencrypt
 cd /vpn
