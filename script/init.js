@@ -111,13 +111,15 @@ cert=${cert}
   fs.writeFileSync('/etc/stunnel/stunnel.conf', stunnel_cfg);
   spawnSync('supervisorctl', ['start', 'stunnel', 'nghttpx']);
   console.log('--------------- All service started ---------------')
-  const span = 30 * 24 * 3600 * 1000; //30 days
+  const span = 10 * 24 * 3600 * 1000; //10 days
   setInterval(()=>{
     const ret = spawnSync('letsencrypt', ['renew']);
     fs.writeFile('renew_cert.log', ret.stdout.toString(), (err)=> {
       // if (err) throw err;
       // console.log('Saved!');
-      // spawnSync('supervisorctl', ['restart', 'nginx', 'stunnel', 'nghttpx']);
+      spawnSync('supervisorctl', ['restart', 'nginx', 'stunnel', 'nghttpx']);
+      spawnSync('vpncmd', ['localhost:992', '/SERVER', '/PASSWORD:freego',
+        '/CMD', 'ServerCertSet', `/LOADCERT:${cert}`, `/LOADKEY:${privkey}`]);
     });
   }, span)
 }

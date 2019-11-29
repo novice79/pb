@@ -31,3 +31,5 @@ node_modules
 bak/
 *test*
 ~$*
+*.original
+memo.md
