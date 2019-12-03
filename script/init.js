@@ -34,7 +34,7 @@ if (paras.length == 0) {
   return console.log('please input domain name for fully functional !!!')
 }
 const domain = paras[0];
-const user = paras[1] || 'freego';
+const user = paras[1] || 'piaoyun';
 const pass = paras[2] || "freego2019";
 const key = paras[3] || "freego2019";
 const email = paras[4] || `${user}@${domain}`;
