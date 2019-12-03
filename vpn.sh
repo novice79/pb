@@ -43,7 +43,7 @@ fi
 USAGE=$(cat <<-END
     用法:
     启动VPN服务: $0 DomainName [UserName] [Password] [key] [myEmail]
-    开启时若用户名、密码、秘钥不填，则默认为：freego、freego2016、freego2016
+    开启时若用户名、密码、秘钥不填，则默认为：piaoyun、freego2019、freego2019
     这个用户名、密码……是 客户端 登陆vpn服务器时所用
     在docker服务运行中，如果想申请其它域名（此域名需绑定该服务器ip）的ssl证书，可执行：
     例如: $0 req another.domain.com 或 $0 req another.domain.com myname@email.address

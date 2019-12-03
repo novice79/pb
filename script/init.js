@@ -35,8 +35,8 @@ if (paras.length == 0) {
 }
 const domain = paras[0];
 const user = paras[1] || 'freego';
-const pass = paras[2] || "freego2018";
-const key = paras[3] || "freego2018";
+const pass = paras[2] || "freego2019";
+const key = paras[3] || "freego2019";
 const email = paras[4] || `${user}@${domain}`;
 if (!fs.existsSync(`/etc/letsencrypt/live/${domain}`)) {
   // letsencrypt certonly --standalone --agree-tos --preferred-challenges http-01 --email $em -d $dn
