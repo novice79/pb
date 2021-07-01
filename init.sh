@@ -4,6 +4,8 @@ user="novice"
 pass="test"
 key="freego2021"
 /vpn/vpnserver start
+# must need times to start successfully
+sleep 1
 /vpn/vpncmd localhost:5555 /SERVER /adminhub:DEFAULT /CMD SecureNatEnable
 /vpn/vpncmd localhost:5555 /SERVER /adminhub:DEFAULT /CMD UserCreate "$user" /GROUP:none /REALNAME:none /NOTE:none
 /vpn/vpncmd localhost:5555 /SERVER /adminhub:DEFAULT /CMD UserPasswordSet "$user" /PASSWORD:"$pass"
