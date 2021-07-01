@@ -8,3 +8,7 @@ somewhat still needed to be refined
 and then run ./vpn.sh xxx.com.sth novice mypassword mysharedkey      
 like so: ./vpn.sh DomainName [UserName] [Password] [key] [myEmail]
 4. optionally run a https website within
+
+<!-- htpasswd -b -c /etc/squid/.squid_users chinese outlook -->
+<!-- printf "chinese:$(openssl passwd -apr1 outlook)\n" >> /etc/squid/.squid_users -->
+

@@ -4,7 +4,8 @@ set -e
 apt-get update && apt-get upgrade -y
 # for build softether
 apt-get install cmake build-essential libreadline-dev libncurses5-dev libssl-dev zlib1g-dev -y
-apt-get install -y supervisor cron wget curl net-tools git iptables nginx letsencrypt
+apt-get install -y supervisor cron wget curl net-tools git iptables nginx letsencrypt 
+# apt-get install -y apache2-utils
 cd /vpn
 git clone https://github.com/SoftEtherVPN/SoftEtherVPN.git
 cd SoftEtherVPN
