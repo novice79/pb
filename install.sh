@@ -13,17 +13,16 @@ make -C vpnserver i_read_and_agree_the_license_agreement
 mv vpnserver /vpn
 vpn_pass=$(md5sum <<<"jly" | awk '{print $1}')
 mv /tmp/vpn_server.config /vpn/vpn_server.config
-mac=$(echo $(od -An -N6 -t xC /dev/urandom) | sed -e 's/ /-/g' | tr '[:lower:]' '[:upper:]')
+mac=$(tr -dc A-F0-9 < /dev/urandom | head -c 10 | sed -r 's/(..)/\1:/g;s/:$//;s/^/02:/' | tr '[:lower:]' '[:upper:]')
 sed -ri "s/(^.*VirtualHostMacAddress\s).+$/\1$mac/g;" /vpn/vpn_server.config
 # sed -r "s/(^.*VirtualHostMacAddress\s).+$/\1$mac/g;" ../vpn_server.config | grep VirtualHostMacAddress
 /vpn/vpnserver start
 # must need times to start successfully
 sleep 1
-# /vpn/vpncmd localhost:5555 /SERVER /adminhub:DEFAULT /CMD SecureNatStatusGet
-# /vpn/vpncmd localhost:5555 /SERVER /adminhub:DEFAULT /CMD SecureNatHostGet
+
 # /vpn/vpncmd localhost:5555 /SERVER /adminhub:DEFAULT /CMD SecureNatHostSet \
 #     /MAC "$mac" /IP "10.79.0.1" /MASK "255.255.0.0"
-# /vpn/vpncmd localhost:992 /SERVER /adminhub:DEFAULT /CMD DhcpGet
+
 # /vpn/vpncmd localhost:992 /SERVER /adminhub:DEFAULT /CMD DhcpSet \
 #     /START "10.79.0.10" /END "10.79.255.255" /MASK "255.255.0.0" /EXPIRE "7200" /GW "10.79.0.1"
 # /vpn/vpncmd localhost:992 /SERVER /adminhub:DEFAULT /CMD DhcpSet -help

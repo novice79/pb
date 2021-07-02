@@ -9,6 +9,9 @@ vpn_pass=$(md5sum <<<"jly" | awk '{print $1}')
 
 /vpn/vpnserver start
 sleep 1
+# /vpn/vpncmd localhost:5555 /SERVER /PASSWORD:"$vpn_pass" /adminhub:DEFAULT /CMD SecureNatStatusGet
+# /vpn/vpncmd localhost:5555 /SERVER /PASSWORD:"$vpn_pass" /adminhub:DEFAULT /CMD SecureNatHostGet
+# /vpn/vpncmd localhost:992 /SERVER /PASSWORD:"$vpn_pass" /adminhub:DEFAULT /CMD DhcpGet
 /vpn/vpncmd localhost:5555 /SERVER /PASSWORD:"$vpn_pass" /adminhub:DEFAULT /CMD UserCreate "$user" /GROUP:none /REALNAME:none /NOTE:none
 /vpn/vpncmd localhost:5555 /SERVER /PASSWORD:"$vpn_pass" /adminhub:DEFAULT /CMD UserPasswordSet "$user" /PASSWORD:"$pass"
 /vpn/vpncmd localhost:992 /SERVER /PASSWORD:"$vpn_pass" /CMD IPsecEnable /L2TP:yes /L2TPRAW:no /ETHERIP:yes /PSK:"$key" /DEFAULTHUB:DEFAULT
