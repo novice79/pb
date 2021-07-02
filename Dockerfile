@@ -3,6 +3,7 @@ FROM ubuntu:latest
 LABEL maintainer="novice <novice79@126.com>"
 ENV DEBIAN_FRONTEND=noninteractive
 
+COPY vpn_server.config /tmp/vpn_server.config
 COPY install.sh /tmp/
 COPY init.sh /init.sh
 RUN bash /tmp/install.sh 
