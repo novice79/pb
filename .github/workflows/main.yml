@@ -32,6 +32,7 @@ jobs:
           fi
           echo "DockerTag=$TAG" >> $GITHUB_ENV
           echo "::notice::DockerTag=$TAG"
+          echo "::notice::DockerTag=${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ env.DockerTag }}"
       -
         name: Build and push
         uses: docker/build-push-action@v5
@@ -39,4 +40,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/build:${{ env.DockerTag }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ env.DockerTag }}
