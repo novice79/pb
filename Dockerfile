@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-LABEL maintainer="novice <novice@piaoyun.shop>"
+LABEL maintainer="Novice <novice79@126.com>"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN mkdir -p /vpn && mkdir -p /data/www/static \
