@@ -17,7 +17,11 @@ RUN chmod 0644 /etc/cron.d/gc-cron \
     && touch /var/log/cron.log
     
 WORKDIR /root
-
+COPY conf/my.crt /etc/nginx/my.crt
+COPY conf/my.key /etc/nginx/my.key
+RUN sed -i \
+'/ssl_prefer_server_ciphers/a ssl_certificate /etc/nginx/my.crt;\nssl_certificate_key /etc/nginx/my.key;' \
+/etc/nginx/nginx.conf
 COPY conf/squid.conf /etc/squid/squid.conf
 COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 

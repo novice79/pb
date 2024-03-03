@@ -29,7 +29,7 @@ spawnSync('service', ['nginx', 'reload']);
 let ret = spawnSync('letsencrypt', ['certonly', '--webroot', '-w', '/var/www/ssl-proof/', '--agree-tos', '--email', email, '-d', domain]);
 const std_out = ret.stdout.toString();
 const std_err = ret.stderr.toString();
-if (std_out.indexOf('Congratulations!') < 0) {
+if (std_out.indexOf('Successfully') < 0) {
     console.log('request certificate failed')
     console.log(std_out)
     console.error(std_err)
